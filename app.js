@@ -1,52 +1,85 @@
 window.addEventListener("load", () => {
   start();
 });
+
 let credit = Math.floor(Math.random() * 4) + 9;
 let images = ["Q.png", "U.png", "I.png", "E.png", "N.png", "_.png", "S.png", "O.png", "Y.png"];
 let rewards = ["work1.png", "work2.png", "work3.jpg", "work4.png", "work5.png", "work6.jpg"];
 let current_numbers = [];
 
+/**
+ *
+ */
 const start = () => {
-  document.getElementById("throw").onclick = throw_start;
-};
-
-const throw_start = () => {
-  current_numbers = [];
+  // array con todo false [false, false, false, false, false...]
   for (let i = 0; i < document.getElementsByClassName("button").length; i++) {
-    current_numbers.push(select_number());
-    show_image(i, current_numbers[i]);
+    current_numbers[i] = false;
   }
-  alert(current_numbers);
-};
-// compare();
-
-const throw_one = () => {};
-
-const select_number = () => {
-  let azar = Math.floor(Math.random() * images.length);
-  return azar;
+  document.getElementById("throw").addEventListener("click", () => {
+    throwDice();
+  });
 };
 
-const show_image = (num, im) => {
-  document.getElementsByClassName("image")[(num, im)].getElementsByTagName("img")[0].src = "img/" + images[im];
-};
-
-const compare = () => {
-  if (
-    current_numbers[0] == ["img/Q.png"] &&
-    current_numbers[1] == ["img/U.png"] &&
-    current_numbers[2] == ["img/I.png"] &&
-    current_numbers[3] == ["img/E.png"] &&
-    current_numbers[4] == ["img/N.png"] &&
-    current_numbers[5] == ["img/_.png"] &&
-    current_numbers[6] == ["img/S.png"] &&
-    current_numbers[7] == ["img/O.png"] &&
-    current_numbers[8] == ["img/Y.png"]
-  ) {
+/**
+ *
+ */
+const throwDice = () => {
+  // hacer que algunos false del array se vayan haciendo true
+  for (let i = 0; i < document.querySelectorAll(".button").length; i++) {
+    if (current_numbers[i] == false) {
+      current_numbers[i] = randomBoolean();
+    }
   }
-  return Math.random(rewards.length);
+  showImage();
+
+  // cuando todos sean true
+  if (compareTrue()) {
+    // removeTirarButton();
+    showRandomWork();
+  }
 };
 
+/**
+ *
+ * @returns {Boolean}
+ */
+const randomBoolean = () => {
+  const random = Math.round(Math.random());
+  return random == 1 ? true : false;
+};
+
+/**
+ *
+ */
+const showImage = () => {
+  for (let i = 0; i < document.querySelectorAll(".image").length; i++) {
+    if (current_numbers[i]) {
+      const pic = document.querySelectorAll(".image")[i];
+      const img = pic.querySelector("img");
+      img.src = `img/${images[i]}`;
+    }
+  }
+};
+
+/**
+ *
+ * @returns {Boolean}
+ */
+const compareTrue = () => current_numbers.every((c) => c == true);
+
+/**
+ *
+ */
+const showRandomWork = () => {
+  console.log("show work.. (y currate la maqueta un poco más tio... xd");
+};
+
+/**
+ *
+ */
 const refresh = () => {};
 
+/**
+ *
+ */
 const close = () => {};
